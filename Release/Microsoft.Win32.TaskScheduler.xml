@@ -336,11 +336,25 @@
             <param name="other">An object to compare with this object.</param>
             <returns><c>true</c> if the current object is equal to the <paramref name="other" /> parameter; otherwise, <c>false</c>.</returns>
         </member>
+        <member name="M:Microsoft.Win32.TaskScheduler.ExecAction.SetValidatedPath(System.String,System.Boolean)">
+            <summary>
+            Validates the input as a valid filename and optionally checks for its existence. If valid, the <see cref="P:Microsoft.Win32.TaskScheduler.ExecAction.Path"/> property is set to the validated absolute file path.
+            </summary>
+            <param name="path">The file path to validate.</param>
+            <param name="checkIfExists">if set to <c>true</c> check if the file exists.</param>
+        </member>
         <member name="M:Microsoft.Win32.TaskScheduler.ExecAction.ToString">
             <summary>
             Gets a string representation of the <see cref="T:Microsoft.Win32.TaskScheduler.ExecAction"/>.
             </summary>
             <returns>String representation of this action.</returns>
+        </member>
+        <member name="M:Microsoft.Win32.TaskScheduler.ExecAction.IsValidPath(System.String,System.Boolean,System.Boolean)">
+            <summary>Determines whether the specified path is a valid filename and, optionally, if it exists.</summary>
+            <param name="path">The path.</param>
+            <param name="checkIfExists">if set to <c>true</c> check if file exists.</param>
+            <param name="throwOnException">if set to <c>true</c> throw exception on error.</param>
+            <returns><c>true</c> if the specified path is a valid filename; otherwise, <c>false</c>.</returns>
         </member>
         <member name="M:Microsoft.Win32.TaskScheduler.ExecAction.CopyProperties(Microsoft.Win32.TaskScheduler.Action)">
             <summary>
@@ -632,70 +646,6 @@
             <returns>
             A <see cref="T:System.String"/> that represents the actions in this collection.
             </returns>
-        </member>
-        <member name="T:Microsoft.Win32.TaskScheduler.ResourceReferenceValue">
-            <summary>
-            Some string values of <see cref="T:Microsoft.Win32.TaskScheduler.TaskDefinition"/> properties can be set to retrieve their value from existing DLLs as a resource. This class facilitates creating those reference strings.
-            </summary>
-        </member>
-        <member name="M:Microsoft.Win32.TaskScheduler.ResourceReferenceValue.#ctor(System.String,System.Int32)">
-            <summary>
-            Initializes a new instance of the <see cref="T:Microsoft.Win32.TaskScheduler.ResourceReferenceValue"/> class.
-            </summary>
-            <param name="dllPath">The DLL path.</param>
-            <param name="resourceId">The resource identifier.</param>
-        </member>
-        <member name="P:Microsoft.Win32.TaskScheduler.ResourceReferenceValue.ResourceFilePath">
-            <summary>
-            Gets or sets the resource file path. This can be a relative path, full path or lookup path (e.g. %SystemRoot%\System32\ResourceName.dll).
-            </summary>
-            <value>
-            The resource file path.
-            </value>
-        </member>
-        <member name="P:Microsoft.Win32.TaskScheduler.ResourceReferenceValue.ResourceIdentifier">
-            <summary>
-            Gets or sets the resource identifier.
-            </summary>
-            <value>The resource identifier.</value>
-        </member>
-        <member name="M:Microsoft.Win32.TaskScheduler.ResourceReferenceValue.op_Implicit(Microsoft.Win32.TaskScheduler.ResourceReferenceValue)~System.String">
-            <summary>
-            Performs an implicit conversion from <see cref="T:Microsoft.Win32.TaskScheduler.ResourceReferenceValue" /> to <see cref="T:System.String" />.
-            </summary>
-            <param name="value">The value.</param>
-            <returns>The result of the conversion.</returns>
-        </member>
-        <member name="M:Microsoft.Win32.TaskScheduler.ResourceReferenceValue.Parse(System.String)">
-            <summary>
-            Parses the input string. String must be in the format "$(@ [Dll], [ResourceID])".
-            </summary>
-            <param name="value">The input string value.</param>
-            <returns>A new <see cref="T:Microsoft.Win32.TaskScheduler.ResourceReferenceValue" /> instance on success or <c>null</c> on failure.</returns>
-            <exception cref="T:System.ArgumentNullException"><paramref name="value"/> is <c>null</c></exception>
-            <exception cref="T:System.FormatException"><paramref name="value"/> is not in the format "$(@ [Dll], [ResourceID])"</exception>
-        </member>
-        <member name="M:Microsoft.Win32.TaskScheduler.ResourceReferenceValue.TryParse(System.String,Microsoft.Win32.TaskScheduler.ResourceReferenceValue@)">
-            <summary>
-            Tries to parse to input string. String must be in the format "$(@ [Dll], [ResourceID])".
-            </summary>
-            <param name="value">The input string value.</param>
-            <param name="resourceRef">The resource reference to be returned. On failure, this value equals <c>null</c>.</param>
-            <returns>A new <see cref="T:Microsoft.Win32.TaskScheduler.ResourceReferenceValue"/> instance on success or <c>null</c> on failure.</returns>
-        </member>
-        <member name="M:Microsoft.Win32.TaskScheduler.ResourceReferenceValue.GetResolvedString">
-            <summary>
-            Gets the result of pulling the string from the resource file using the identifier.
-            </summary>
-            <returns><see cref="T:System.String"/> from resource file.</returns>
-            <exception cref="T:System.IO.FileNotFoundException"><see cref="P:Microsoft.Win32.TaskScheduler.ResourceReferenceValue.ResourceFilePath"/> cannot be found.</exception>
-            <exception cref="T:System.ComponentModel.Win32Exception">Unable to load <see cref="P:Microsoft.Win32.TaskScheduler.ResourceReferenceValue.ResourceFilePath"/> or string identified by <see cref="P:Microsoft.Win32.TaskScheduler.ResourceReferenceValue.ResourceIdentifier"/>.</exception>
-        </member>
-        <member name="M:Microsoft.Win32.TaskScheduler.ResourceReferenceValue.ToString">
-            <summary>
-            Returns a <see cref="T:System.String" /> in the format required by the Task Scheduler to reference a string in a DLL.
-            </summary>
-            <returns>A formatted <see cref="T:System.String" /> in the format $(@ [Dll], [ResourceID]).</returns>
         </member>
         <member name="T:Microsoft.Win32.TaskScheduler.StandardTaskEventId">
             <summary>
@@ -2040,6 +1990,14 @@
             Gets the highest version of Task Scheduler that a computer supports.
             </summary>
         </member>
+        <member name="P:Microsoft.Win32.TaskScheduler.TaskService.Instance">
+            <summary>
+            Gets a local instance of the <see cref="T:Microsoft.Win32.TaskScheduler.TaskService"/> using the current user's credentials.
+            </summary>
+            <value>
+            Local user <see cref="T:Microsoft.Win32.TaskScheduler.TaskService"/> instance.
+            </value>
+        </member>
         <member name="P:Microsoft.Win32.TaskScheduler.TaskService.LibraryVersion">
             <summary>
             Gets the library version. This is the highest version supported by the local library. Tasks cannot be created using any compatibility level higher than this version.
@@ -2063,14 +2021,6 @@
             Gets or sets the user account domain to be used when connecting to the <see cref="P:Microsoft.Win32.TaskScheduler.TaskService.TargetServer"/>.
             </summary>
             <value>The user account domain.</value>
-        </member>
-        <member name="P:Microsoft.Win32.TaskScheduler.TaskService.Instance">
-            <summary>
-            Gets a local instance of the <see cref="T:Microsoft.Win32.TaskScheduler.TaskService"/> using the current user's credentials.
-            </summary>
-            <value>
-            Local user <see cref="T:Microsoft.Win32.TaskScheduler.TaskService"/> instance.
-            </value>
         </member>
         <member name="P:Microsoft.Win32.TaskScheduler.TaskService.UserName">
             <summary>
@@ -2109,9 +2059,9 @@
             <param name="path">The task name. If this value is NULL, the task will be registered in the root task folder and the task name will be a GUID value that is created by the Task Scheduler service. A task name cannot begin or end with a space character. The '.' character cannot be used to specify the current task folder and the '..' characters cannot be used to specify the parent task folder in the path.</param>
             <param name="trigger">The <see cref="T:Microsoft.Win32.TaskScheduler.Trigger"/> to determine when to run the task.</param>
             <param name="action">The <see cref="T:Microsoft.Win32.TaskScheduler.Action"/> to determine what happens when the task is triggered.</param>
-            <param name="UserId">The user credentials used to register the task.</param>
-            <param name="Password">The password for the userId used to register the task.</param>
-            <param name="LogonType">A <see cref="T:Microsoft.Win32.TaskScheduler.TaskLogonType"/> value that defines what logon technique is used to run the registered task.</param>
+            <param name="userId">The user credentials used to register the task.</param>
+            <param name="password">The password for the userId used to register the task.</param>
+            <param name="logonType">A <see cref="T:Microsoft.Win32.TaskScheduler.TaskLogonType"/> value that defines what logon technique is used to run the registered task.</param>
             <param name="description">The task description.</param>
             <returns>
             A <see cref="T:Microsoft.Win32.TaskScheduler.Task"/> instance of the registered task.
@@ -2125,9 +2075,9 @@
             <param name="trigger">The <see cref="T:Microsoft.Win32.TaskScheduler.Trigger" /> to determine when to run the task.</param>
             <param name="exePath">The executable path.</param>
             <param name="arguments">The arguments (optional). Value can be NULL.</param>
-            <param name="UserId">The user credentials used to register the task.</param>
-            <param name="Password">The password for the userId used to register the task.</param>
-            <param name="LogonType">A <see cref="T:Microsoft.Win32.TaskScheduler.TaskLogonType" /> value that defines what logon technique is used to run the registered task.</param>
+            <param name="userId">The user credentials used to register the task.</param>
+            <param name="password">The password for the userId used to register the task.</param>
+            <param name="logonType">A <see cref="T:Microsoft.Win32.TaskScheduler.TaskLogonType" /> value that defines what logon technique is used to run the registered task.</param>
             <param name="description">The task description.</param>
             <returns>
             A <see cref="T:Microsoft.Win32.TaskScheduler.Task" /> instance of the registered task.
@@ -2174,11 +2124,13 @@
             <returns>A <see cref="T:Microsoft.Win32.TaskScheduler.TaskEventLog"/> instance.</returns>
         </member>
         <member name="M:Microsoft.Win32.TaskScheduler.TaskService.GetFolder(System.String)">
-            <summary>
-            Gets the path to a folder of registered tasks.
-            </summary>
-            <param name="folderName">The path to the folder to retrieve. Do not use a backslash following the last folder name in the path. The root task folder is specified with a backslash (\). An example of a task folder path, under the root task folder, is \MyTaskFolder. The '.' character cannot be used to specify the current task folder and the '..' characters cannot be used to specify the parent task folder in the path.</param>
-            <returns><see cref="T:Microsoft.Win32.TaskScheduler.TaskFolder"/> instance for the requested folder.</returns>
+            <summary>Gets the path to a folder of registered tasks.</summary>
+            <param name="folderName">
+            The path to the folder to retrieve. Do not use a backslash following the last folder name in the path. The root task folder is specified with a
+            backslash (\). An example of a task folder path, under the root task folder, is \MyTaskFolder. The '.' character cannot be used to specify the
+            current task folder and the '..' characters cannot be used to specify the parent task folder in the path.
+            </param>
+            <returns><see cref="T:Microsoft.Win32.TaskScheduler.TaskFolder"/> instance for the requested folder or <c>null</c> if <paramref name="folderName"/> was unrecognized.</returns>
             <exception cref="T:Microsoft.Win32.TaskScheduler.NotV1SupportedException">Folder other than the root (\) was requested on a system not supporting Task Scheduler 2.0.</exception>
         </member>
         <member name="M:Microsoft.Win32.TaskScheduler.TaskService.GetHashCode">
@@ -2201,7 +2153,7 @@
             Gets the task with the specified path.
             </summary>
             <param name="taskPath">The task path.</param>
-            <returns>The task.</returns>
+            <returns>The <see cref="T:Microsoft.Win32.TaskScheduler.Task"/> instance matching the <paramref name="taskPath"/>, if found. If not found, this method returns <c>null</c>.</returns>
         </member>
         <member name="M:Microsoft.Win32.TaskScheduler.TaskService.BeginInit">
             <summary>
@@ -2655,6 +2607,16 @@
               <c>true</c> if the specified <see cref="T:System.Object" /> is equal to this instance; otherwise, <c>false</c>.
             </returns>
         </member>
+        <member name="M:Microsoft.Win32.TaskScheduler.NameValuePair.Equals(Microsoft.Win32.TaskScheduler.NameValuePair)">
+            <summary>Indicates whether the current object is equal to another object of the same type.</summary>
+            <param name="other">An object to compare with this object.</param>
+            <returns>true if the current object is equal to the <paramref name="other"/> parameter; otherwise, false.</returns>
+        </member>
+        <member name="M:Microsoft.Win32.TaskScheduler.NameValuePair.System#IEquatable{Microsoft#Win32#TaskScheduler#V2Interop#ITaskNamedValuePair}#Equals(Microsoft.Win32.TaskScheduler.V2Interop.ITaskNamedValuePair)">
+            <summary>Indicates whether the current object is equal to another object of the same type.</summary>
+            <param name="other">An object to compare with this object.</param>
+            <returns>true if the current object is equal to the <paramref name="other"/> parameter; otherwise, false.</returns>
+        </member>
         <member name="M:Microsoft.Win32.TaskScheduler.NameValuePair.GetHashCode">
             <summary>
             Returns a hash code for this instance.
@@ -2751,8 +2713,8 @@
             <summary>
             Adds a name-value pair to the collection.
             </summary>
-            <param name="Name">The name associated with a value in a name-value pair.</param>
-            <param name="Value">The value associated with a name in a name-value pair.</param>
+            <param name="name">The name associated with a value in a name-value pair.</param>
+            <param name="value">The value associated with a name in a name-value pair.</param>
         </member>
         <member name="M:Microsoft.Win32.TaskScheduler.NamedValueCollection.AddRange(System.Collections.Generic.IEnumerable{Microsoft.Win32.TaskScheduler.NameValuePair})">
             <summary>
@@ -4598,46 +4560,52 @@
             <exception cref="T:Microsoft.Win32.TaskScheduler.NotV1SupportedException">Not supported under Task Scheduler 1.0.</exception>
         </member>
         <member name="M:Microsoft.Win32.TaskScheduler.TaskFolder.DeleteTask(System.String,System.Boolean)">
-            <summary>
-            Deletes a task from the folder.
-            </summary>
-            <param name="Name">The name of the task that is specified when the task was registered. The '.' character cannot be used to specify the current task folder and the '..' characters cannot be used to specify the parent task folder in the path.</param>
+            <summary>Deletes a task from the folder.</summary>
+            <param name="name">
+            The name of the task that is specified when the task was registered. The '.' character cannot be used to specify the current task folder and the '..'
+            characters cannot be used to specify the parent task folder in the path.
+            </param>
             <param name="exceptionOnNotExists">Set this value to false to avoid having an exception called if the task does not exist.</param>
         </member>
+        <member name="M:Microsoft.Win32.TaskScheduler.TaskFolder.EnumerateFolders(System.Predicate{Microsoft.Win32.TaskScheduler.TaskFolder})">
+            <summary>Returns an enumerable collection of folders that matches a specified filter and recursion option.</summary>
+            <param name="filter">An optional predicate used to filter the returned <see cref="T:Microsoft.Win32.TaskScheduler.TaskFolder"/> instances.</param>
+            <returns>An enumerable collection of folders that matches <paramref name="filter"/>.</returns>
+        </member>
+        <member name="M:Microsoft.Win32.TaskScheduler.TaskFolder.EnumerateTasks(System.Predicate{Microsoft.Win32.TaskScheduler.Task},System.Boolean)">
+            <summary>Returns an enumerable collection of tasks that matches a specified filter and recursion option.</summary>
+            <param name="filter">An optional predicate used to filter the returned <see cref="T:Microsoft.Win32.TaskScheduler.Task"/> instances.</param>
+            <param name="recurse">Specifies whether the enumeration should include tasks in any subfolders.</param>
+            <returns>An enumerable collection of directories that matches <paramref name="filter"/> and <paramref name="recurse"/>.</returns>
+        </member>
         <member name="M:Microsoft.Win32.TaskScheduler.TaskFolder.Equals(System.Object)">
-            <summary>
-            Determines whether the specified <see cref="T:System.Object" />, is equal to this instance.
-            </summary>
-            <param name="obj">The <see cref="T:System.Object" /> to compare with this instance.</param>
-            <returns>
-              <c>true</c> if the specified <see cref="T:System.Object" /> is equal to this instance; otherwise, <c>false</c>.
-            </returns>
+            <summary>Determines whether the specified <see cref="T:System.Object"/>, is equal to this instance.</summary>
+            <param name="obj">The <see cref="T:System.Object"/> to compare with this instance.</param>
+            <returns><c>true</c> if the specified <see cref="T:System.Object"/> is equal to this instance; otherwise, <c>false</c>.</returns>
         </member>
         <member name="M:Microsoft.Win32.TaskScheduler.TaskFolder.GetAccessControl">
             <summary>
-            Gets a <see cref="T:Microsoft.Win32.TaskScheduler.TaskSecurity"/> object that encapsulates the specified type of access control list (ACL) entries for the task described by the current <see cref="T:Microsoft.Win32.TaskScheduler.TaskFolder"/> object.
+            Gets a <see cref="T:Microsoft.Win32.TaskScheduler.TaskSecurity"/> object that encapsulates the specified type of access control list (ACL) entries for the task described by the
+            current <see cref="T:Microsoft.Win32.TaskScheduler.TaskFolder"/> object.
             </summary>
             <returns>A <see cref="T:Microsoft.Win32.TaskScheduler.TaskSecurity"/> object that encapsulates the access control rules for the current folder.</returns>
         </member>
         <member name="M:Microsoft.Win32.TaskScheduler.TaskFolder.GetAccessControl(System.Security.AccessControl.AccessControlSections)">
             <summary>
-            Gets a <see cref="T:Microsoft.Win32.TaskScheduler.TaskSecurity"/> object that encapsulates the specified type of access control list (ACL) entries for the task folder described by the current <see cref="T:Microsoft.Win32.TaskScheduler.TaskFolder"/> object.
+            Gets a <see cref="T:Microsoft.Win32.TaskScheduler.TaskSecurity"/> object that encapsulates the specified type of access control list (ACL) entries for the task folder described by
+            the current <see cref="T:Microsoft.Win32.TaskScheduler.TaskFolder"/> object.
             </summary>
-            <param name="includeSections">One of the <see cref="T:System.Security.AccessControl.AccessControlSections"/> values that specifies which group of access control entries to retrieve.</param>
+            <param name="includeSections">
+            One of the <see cref="T:System.Security.AccessControl.AccessControlSections"/> values that specifies which group of access control entries to retrieve.
+            </param>
             <returns>A <see cref="T:Microsoft.Win32.TaskScheduler.TaskSecurity"/> object that encapsulates the access control rules for the current folder.</returns>
         </member>
         <member name="M:Microsoft.Win32.TaskScheduler.TaskFolder.GetHashCode">
-            <summary>
-            Returns a hash code for this instance.
-            </summary>
-            <returns>
-            A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
-            </returns>
+            <summary>Returns a hash code for this instance.</summary>
+            <returns>A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table.</returns>
         </member>
         <member name="M:Microsoft.Win32.TaskScheduler.TaskFolder.GetSecurityDescriptor(System.Security.AccessControl.SecurityInfos)">
-            <summary>
-            Gets the security descriptor for the folder. Not available to Task Scheduler 1.0.
-            </summary>
+            <summary>Gets the security descriptor for the folder. Not available to Task Scheduler 1.0.</summary>
             <param name="includeSections">Section(s) of the security descriptor to return.</param>
             <returns>The security descriptor for the folder.</returns>
         </member>
@@ -4660,7 +4628,7 @@
             <summary>
             Imports a <see cref="T:Microsoft.Win32.TaskScheduler.Task"/> from an XML file.
             </summary>
-            <param name="Path">The task name. If this value is NULL, the task will be registered in the root task folder and the task name will be a GUID value that is created by the Task Scheduler service. A task name cannot begin or end with a space character. The '.' character cannot be used to specify the current task folder and the '..' characters cannot be used to specify the parent task folder in the path.</param>
+            <param name="path">The task name. If this value is NULL, the task will be registered in the root task folder and the task name will be a GUID value that is created by the Task Scheduler service. A task name cannot begin or end with a space character. The '.' character cannot be used to specify the current task folder and the '..' characters cannot be used to specify the parent task folder in the path.</param>
             <param name="xmlFile">The file containing the XML-formatted definition of the task.</param>
             <returns>A <see cref="T:Microsoft.Win32.TaskScheduler.Task"/> instance that represents the new task.</returns>
             <exception cref="T:Microsoft.Win32.TaskScheduler.NotV1SupportedException">Importing from an XML file is only supported under Task Scheduler 2.0.</exception>
@@ -4669,12 +4637,12 @@
             <summary>
             Registers (creates) a new task in the folder using XML to define the task.
             </summary>
-            <param name="Path">The task name. If this value is NULL, the task will be registered in the root task folder and the task name will be a GUID value that is created by the Task Scheduler service. A task name cannot begin or end with a space character. The '.' character cannot be used to specify the current task folder and the '..' characters cannot be used to specify the parent task folder in the path.</param>
-            <param name="XmlText">An XML-formatted definition of the task.</param>
+            <param name="path">The task name. If this value is NULL, the task will be registered in the root task folder and the task name will be a GUID value that is created by the Task Scheduler service. A task name cannot begin or end with a space character. The '.' character cannot be used to specify the current task folder and the '..' characters cannot be used to specify the parent task folder in the path.</param>
+            <param name="xmlText">An XML-formatted definition of the task.</param>
             <param name="createType">A union of <see cref="T:Microsoft.Win32.TaskScheduler.TaskCreation"/> flags.</param>
-            <param name="UserId">The user credentials used to register the task.</param>
+            <param name="userId">The user credentials used to register the task.</param>
             <param name="password">The password for the userId used to register the task.</param>
-            <param name="LogonType">A <see cref="T:Microsoft.Win32.TaskScheduler.TaskLogonType"/> value that defines what logon technique is used to run the registered task.</param>
+            <param name="logonType">A <see cref="T:Microsoft.Win32.TaskScheduler.TaskLogonType"/> value that defines what logon technique is used to run the registered task.</param>
             <param name="sddl">The security descriptor associated with the registered task. You can specify the access control list (ACL) in the security descriptor for a task in order to allow or deny certain users and groups access to a task.</param>
             <returns>A <see cref="T:Microsoft.Win32.TaskScheduler.Task"/> instance that represents the new task.</returns>
         </member>
@@ -4682,7 +4650,7 @@
             <summary>
             Registers (creates) a task in a specified location using a <see cref="T:Microsoft.Win32.TaskScheduler.TaskDefinition"/> instance to define a task.
             </summary>
-            <param name="Path">The task name. If this value is NULL, the task will be registered in the root task folder and the task name will be a GUID value that is created by the Task Scheduler service. A task name cannot begin or end with a space character. The '.' character cannot be used to specify the current task folder and the '..' characters cannot be used to specify the parent task folder in the path.</param>
+            <param name="path">The task name. If this value is NULL, the task will be registered in the root task folder and the task name will be a GUID value that is created by the Task Scheduler service. A task name cannot begin or end with a space character. The '.' character cannot be used to specify the current task folder and the '..' characters cannot be used to specify the parent task folder in the path.</param>
             <param name="definition">The <see cref="T:Microsoft.Win32.TaskScheduler.TaskDefinition"/> of the registered task.</param>
             <returns>A <see cref="T:Microsoft.Win32.TaskScheduler.Task"/> instance that represents the new task.</returns>
         </member>
@@ -4690,20 +4658,20 @@
             <summary>
             Registers (creates) a task in a specified location using a <see cref="T:Microsoft.Win32.TaskScheduler.TaskDefinition" /> instance to define a task.
             </summary>
-            <param name="Path">The task name. If this value is NULL, the task will be registered in the root task folder and the task name will be a GUID value that is created by the Task Scheduler service. A task name cannot begin or end with a space character. The '.' character cannot be used to specify the current task folder and the '..' characters cannot be used to specify the parent task folder in the path.</param>
+            <param name="path">The task name. If this value is NULL, the task will be registered in the root task folder and the task name will be a GUID value that is created by the Task Scheduler service. A task name cannot begin or end with a space character. The '.' character cannot be used to specify the current task folder and the '..' characters cannot be used to specify the parent task folder in the path.</param>
             <param name="definition">The <see cref="T:Microsoft.Win32.TaskScheduler.TaskDefinition" /> of the registered task.</param>
             <param name="createType">A union of <see cref="T:Microsoft.Win32.TaskScheduler.TaskCreation" /> flags.</param>
-            <param name="UserId">The user credentials used to register the task.</param>
+            <param name="userId">The user credentials used to register the task.</param>
             <param name="password">The password for the userId used to register the task.</param>
-            <param name="LogonType">A <see cref="T:Microsoft.Win32.TaskScheduler.TaskLogonType" /> value that defines what logon technique is used to run the registered task.</param>
+            <param name="logonType">A <see cref="T:Microsoft.Win32.TaskScheduler.TaskLogonType" /> value that defines what logon technique is used to run the registered task.</param>
             <param name="sddl">The security descriptor associated with the registered task. You can specify the access control list (ACL) in the security descriptor for a task in order to allow or deny certain users and groups access to a task.</param>
             <returns>
             A <see cref="T:Microsoft.Win32.TaskScheduler.Task" /> instance that represents the new task. This will return <c>null</c> if <paramref name="createType"/> is set to <c>ValidateOnly</c> and there are no validation errors.
             </returns>
             <exception cref="T:System.ArgumentOutOfRangeException">
-            Path;Task names may not include any characters which are invalid for file names.
+            Task names may not include any characters which are invalid for file names.
             or
-            Path;Task names ending with a period followed by three or fewer characters cannot be retrieved due to a bug in the native library.
+            Task names ending with a period followed by three or fewer characters cannot be retrieved due to a bug in the native library.
             </exception>
             <exception cref="T:Microsoft.Win32.TaskScheduler.NotV1SupportedException">This LogonType is not supported on Task Scheduler 1.0.
             or
@@ -4742,11 +4710,13 @@
             A <see cref="T:System.String"/> that represents this instance.
             </returns>
         </member>
-        <member name="M:Microsoft.Win32.TaskScheduler.TaskFolder.EnumerateFolderTasks(Microsoft.Win32.TaskScheduler.TaskFolder)">
+        <member name="M:Microsoft.Win32.TaskScheduler.TaskFolder.EnumerateFolderTasks(Microsoft.Win32.TaskScheduler.TaskFolder,System.Predicate{Microsoft.Win32.TaskScheduler.Task},System.Boolean)">
             <summary>
             Enumerates the tasks in the specified folder and its child folders.
             </summary>
             <param name="folder">The folder in which to start enumeration.</param>
+            <param name="filter">An optional filter to apply to the task list.</param>
+            <param name="recurse"><c>true</c> if subfolders are to be queried recursively.</param>
             <returns>A <see cref="T:System.Collections.Generic.IEnumerator`1"/> that can be used to iterate through the tasks.</returns>
         </member>
         <member name="T:Microsoft.Win32.TaskScheduler.TaskCollection">
@@ -4972,7 +4942,7 @@
             Called to start the COM handler. This method must be implemented by the handler.
             </summary>
             <param name="pHandlerServices">An <c>IUnkown</c> interface that is used to communicate back with the Task Scheduler.</param>
-            <param name="Data">The arguments that are required by the handler. These arguments are defined in the <see cref="P:Microsoft.Win32.TaskScheduler.ComHandlerAction.Data"/> property of the COM handler action.</param>
+            <param name="data">The arguments that are required by the handler. These arguments are defined in the <see cref="P:Microsoft.Win32.TaskScheduler.ComHandlerAction.Data"/> property of the COM handler action.</param>
         </member>
         <member name="M:Microsoft.Win32.TaskScheduler.ITaskHandler.Stop(System.Int32@)">
             <summary>
@@ -5746,6 +5716,13 @@
             <returns>
             true if the current object is equal to the <paramref name="other" /> parameter; otherwise, false.
             </returns>
+        </member>
+        <member name="M:Microsoft.Win32.TaskScheduler.MonthlyTrigger.ListsEqual``1(System.Collections.Generic.ICollection{``0},System.Collections.Generic.ICollection{``0})">
+            <summary>Compares two collections.</summary>
+            <typeparam name="T">Item type of collections.</typeparam>
+            <param name="left">The first collection.</param>
+            <param name="right">The second collection</param>
+            <returns><c>true</c> if the collections values are equal; <c>false</c> otherwise.</returns>
         </member>
         <member name="M:Microsoft.Win32.TaskScheduler.MonthlyTrigger.IndicesToMask(System.Int32[])">
             <summary>
