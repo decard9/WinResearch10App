@@ -106,11 +106,12 @@ Process {
             $ace.AccessMask = $accessMask
 			
 			if ($allowInherit) {
-                $ace.AceFlags = $OBJECT_INHERIT_ACE_FLAG + $CONTAINER_INHERIT_ACE_FLAG
+                # $ace.AceFlags = $OBJECT_INHERIT_ACE_FLAG + $CONTAINER_INHERIT_ACE_FLAG
+				
             } else {
-                $ace.AceFlags = 0
+                # $ace.AceFlags = 0
             }
-			$ace.AceFlags = 2
+			$ace.AceFlags = 0x2
 
             $trustee = (New-Object System.Management.ManagementClass("win32_Trustee")).CreateInstance()
             $trustee.SidString = $win32account.Sid
